@@ -1,0 +1,170 @@
+TABM/
+├── index.html
+├── styles.css
+├── script.js
+├── manifest.json
+├── service-worker.js
+├── icon-192x192.png
+└── icon-512x512.png
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TABM</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json"> <!-- Link to the manifest file -->
+</head>
+<body>
+
+<header>
+    <h1>TABM</h1> <!-- Updated header -->
+    <div id="searchContainer">
+        <input type="text" id="searchInput" placeholder="Search...">
+        <button id="searchButton">Search</button>
+        <button id="chatbotButton">AI Chatbot</button>
+    </div>
+    <nav>
+        <button onclick="showPage('login')">Login</button>
+        <button onclick="showPage('signup')">Sign Up</button>
+        <button onclick="showPage('business')">DTS Business Account</button>
+        <button onclick="showPage('gameBuilder')">DTS Game Builder</button>
+        <button onclick="showPage('movieMaker')">DTS Movie Maker</button>
+        <button onclick="showPage('imageSearch')">Image Search</button>
+        <button onclick="showPage('urlSearch')">URL Search</button>
+        <button onclick="showPage('tabmApp')">TABM App</button> <!-- New Button -->
+    </nav>
+</header>
+
+<main id="mainContent">
+    <h2>Welcome to TABM!</h2> <!-- Updated welcome message -->
+    <p>Use the search bar above to start your search.</p>
+    <a href="https://github.com/YOUR_USERNAME/TABM/archive/refs/heads/main.zip" target="_blank">
+        <button>Download TABM Project as ZIP</button>
+    </a>
+</main>
+
+<script src="script.js"></script>
+<script>
+    // Register the service worker
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+            navigator.serviceWorker.register('service-worker.js').then(function(registration) {
+                console.log('Service Worker registered with scope:', registration.scope);
+            }).catch(function(error) {
+                console.log('Service Worker registration failed:', error);
+            });
+        });
+    }
+</script>
+</body>
+</html>
+body {
+    font-family: Arial, sans-serif;
+    background-color: white;
+    margin: 0;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+}
+
+#searchContainer {
+    margin: 20px 0;
+}
+
+nav {
+    margin: 20px 0;
+}
+
+nav button {
+    margin: 5px;
+    padding: 10px 15px;
+}
+// Function to show the appropriate page content
+function showPage(page) {
+    const mainContent = document.getElementById('mainContent');
+    mainContent.innerHTML = ''; // Clear current content
+
+    switch(page) {
+        case 'login':
+            mainContent.innerHTML = `
+                <h1>Login</h1>
+                <form id="loginForm">
+                    <input type="text" placeholder="Username" required>
+                    <input type="password" placeholder="Password" required>
+                    <button type="submit">Log In</button>
+                </form>
+                <p>Don't have an account? <button onclick="showPage('signup')">Sign Up</button></p>
+            `;
+            break;
+        case 'signup':
+            mainContent.innerHTML = `
+                <h1>Sign Up</h1>
+                <form id="signupForm">
+                    <input type="text" placeholder="Username" required>
+                    <input type="email" placeholder="Email" required>
+                    <input type="password" placeholder="Password" required>
+                    <button type="submit">Create Account</button>
+                </form>
+                <p>Already have an account? <button onclick="showPage('login')">Login</button></p>
+            `;
+            break;
+        case 'business':
+            mainContent.innerHTML = `
+                <h1>DTS Business Account</h1>
+                <p>Welcome to the DTS Business Account page. Here you can manage your business settings and tools.</p>
+            `;
+            break;
+        case 'gameBuilder':
+            mainContent.innerHTML = `
+                <h1>DTS Game Builder</h1>
+                <p>Welcome to the DTS Game Builder. Start creating your game using our tools and resources!</p>
+            `;
+            break;
+        case 'movieMaker':
+            mainContent.innerHTML = `
+                <h1>DTS Movie Maker</h1>
+                <p>Welcome to the DTS Movie Maker. Create and edit your movies using our platform!</p>
+            `;
+            break;
+        case 'imageSearch':
+            mainContent.innerHTML = `
+                <h1>Image Search</h1>
+                <p>Use our image search tools to find the images you need quickly and efficiently.</p>
+            `;
+            break;
+        case 'urlSearch':
+            mainContent.innerHTML = `
+                <h1>URL Search</h1>
+                <p>Enter a URL to search for more information or insights about it.</p>
+            `;
+            break;
+        case 'tabmApp':
+            mainContent.innerHTML = `
+                <h1>TABM App</h1>
+                <p>Welcome to the TABM App page. Here you can find information about the TABM app and download it.</p>
+                <button onclick="window.open('https://sites.google.com/view/tabm-official/home', '_blank')">Download TABM Official App</button>
+            `;
+            break;
+        default:
+            mainContent.innerHTML = `
+                <h2>Welcome to TABM!</h2>
+                <p>Use the search bar above to start your search.</p>
+            `;
+            break;
+    }
+}
+
+// Search button functionality to redirect to Google
+document.getElementById('searchButton').addEventListener('click', function() {
+    const query = document.getElementById('searchInput').value;
+    if (query) {
+        const googleSearchUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+        window.open(googleSearchUrl, '_blank'); // Open in a new tab
+    } else {
+        alert('Please enter a search query.');
+    }
+});
